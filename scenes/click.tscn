@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://co5fje474iqak"]
+
+[ext_resource type="AudioStream" uid="uid://dveawk105f0id" path="res://assets/click.ogg" id="1_o27s8"]
+[ext_resource type="Script" path="res://src/scripts/click.gd" id="2_quiut"]
+
+[node name="Click" type="AudioStreamPlayer"]
+stream = ExtResource("1_o27s8")
+script = ExtResource("2_quiut")

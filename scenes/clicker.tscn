@@ -1,0 +1,357 @@
+[gd_scene load_steps=25 format=3 uid="uid://st1r273sqnfd"]
+
+[ext_resource type="Script" path="res://src/scripts/NoiseBG.gd" id="1_a7we5"]
+[ext_resource type="Script" path="res://src/scripts/Achievements.gd" id="2_c0uv1"]
+[ext_resource type="Texture2D" uid="uid://b678udy1acdbr" path="res://assets/achievements.svg" id="3_v6ftc"]
+[ext_resource type="Script" path="res://src/scripts/sound.gd" id="4_23bpt"]
+[ext_resource type="Texture2D" uid="uid://yhcdf1y4jfv" path="res://assets/sound.svg" id="5_6waki"]
+[ext_resource type="Script" path="res://src/scenes/BackgroundButton.gd" id="6_872c3"]
+[ext_resource type="Script" path="res://src/scripts/Score.gd" id="6_d3rg5"]
+[ext_resource type="Texture2D" uid="uid://c8h3gduycdldb" path="res://assets/bg.svg" id="7_k14kr"]
+[ext_resource type="Script" path="res://src/scripts/ButtonUnit.gd" id="7_nneal"]
+[ext_resource type="Texture2D" uid="uid://c1vkfxur41g5r" path="res://assets/unit.svg" id="8_i0rqs"]
+[ext_resource type="Script" path="res://src/scripts/ButtonGain.gd" id="9_uox3s"]
+[ext_resource type="Texture2D" uid="uid://462dx8ttgmtb" path="res://assets/gain.svg" id="10_k6dbd"]
+[ext_resource type="Script" path="res://src/scripts/ButtonPerSec.gd" id="11_3t03w"]
+[ext_resource type="Texture2D" uid="uid://ymw7ktewry35" path="res://assets/persec.svg" id="12_aisou"]
+[ext_resource type="Script" path="res://src/scripts/ButtonLuck.gd" id="13_w71lm"]
+[ext_resource type="Texture2D" uid="uid://b6b56msxhsy2e" path="res://assets/luck.svg" id="14_447qu"]
+
+[sub_resource type="Gradient" id="Gradient_cg4yv"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.279221, 0.915584)
+colors = PackedColorArray(0.051971, 0.051971, 0.051971, 1, 0.129558, 0.129558, 0.129558, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_c7qbc"]
+noise_type = 2
+frequency = 0.029
+fractal_lacunarity = 1.665
+fractal_gain = -0.255
+fractal_weighted_strength = 0.35
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2dcdk"]
+invert = true
+color_ramp = SubResource("Gradient_cg4yv")
+noise = SubResource("FastNoiseLite_c7qbc")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bv7bq"]
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="Theme" id="Theme_5cqw0"]
+Button/styles/normal = SubResource("StyleBoxFlat_bv7bq")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qmawe"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+
+[sub_resource type="Theme" id="Theme_dg0g8"]
+Button/styles/normal = SubResource("StyleBoxFlat_bv7bq")
+Button/styles/pressed = SubResource("StyleBoxFlat_qmawe")
+
+[sub_resource type="SystemFont" id="SystemFont_4ehm3"]
+font_names = PackedStringArray("Arial")
+
+[node name="Clicker" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NoiseBG" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -909.0
+offset_top = -909.0
+offset_right = 909.0
+offset_bottom = 909.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("NoiseTexture2D_2dcdk")
+script = ExtResource("1_a7we5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UI_Buttons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 50
+
+[node name="AchievementsButton" type="Button" parent="VBoxContainer/UI_Buttons"]
+z_index = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme = SubResource("Theme_5cqw0")
+theme_type_variation = &"FlatButton"
+toggle_mode = true
+script = ExtResource("2_c0uv1")
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/UI_Buttons/AchievementsButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.07
+anchor_top = 0.07
+anchor_right = 0.93
+anchor_bottom = 0.93
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_v6ftc")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="SoundButton" type="Button" parent="VBoxContainer/UI_Buttons"]
+z_index = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme = SubResource("Theme_5cqw0")
+theme_type_variation = &"FlatButton"
+toggle_mode = true
+script = ExtResource("4_23bpt")
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/UI_Buttons/SoundButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.07
+anchor_top = 0.07
+anchor_right = 0.93
+anchor_bottom = 0.93
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_6waki")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="BackgroundButton2" type="Button" parent="VBoxContainer/UI_Buttons"]
+z_index = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme = SubResource("Theme_5cqw0")
+theme_type_variation = &"FlatButton"
+toggle_mode = true
+script = ExtResource("6_872c3")
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/UI_Buttons/BackgroundButton2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.07
+anchor_top = 0.07
+anchor_right = 0.93
+anchor_bottom = 0.93
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_k14kr")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Score" type="Label" parent="VBoxContainer"]
+z_index = 1
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = -10
+theme_override_constants/shadow_offset_y = -10
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 10
+theme_override_font_sizes/font_size = 100
+text = "Test."
+justification_flags = 160
+script = ExtResource("6_d3rg5")
+
+[node name="Gameloop_Buttons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 50
+
+[node name="ButtonUnit" type="Button" parent="VBoxContainer/Gameloop_Buttons"]
+z_index = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_dg0g8")
+script = ExtResource("7_nneal")
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Gameloop_Buttons/ButtonUnit"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.07
+anchor_top = 0.07
+anchor_right = 0.93
+anchor_bottom = 0.93
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_i0rqs")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="UnitDisplay" type="Label" parent="VBoxContainer/Gameloop_Buttons/ButtonUnit"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonGain" type="Button" parent="VBoxContainer/Gameloop_Buttons"]
+z_index = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme = SubResource("Theme_dg0g8")
+script = ExtResource("9_uox3s")
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Gameloop_Buttons/ButtonGain"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.075
+anchor_top = 0.075
+anchor_right = 0.925
+anchor_bottom = 0.925
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_k6dbd")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="GainDisplay" type="Label" parent="VBoxContainer/Gameloop_Buttons/ButtonGain"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonPerSec" type="Button" parent="VBoxContainer/Gameloop_Buttons"]
+z_index = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme = SubResource("Theme_dg0g8")
+script = ExtResource("11_3t03w")
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Gameloop_Buttons/ButtonPerSec"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.07
+anchor_top = 0.07
+anchor_right = 0.93
+anchor_bottom = 0.93
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_aisou")
+expand_mode = 1
+
+[node name="PerSecDisplay" type="Label" parent="VBoxContainer/Gameloop_Buttons/ButtonPerSec"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonLuck" type="Button" parent="VBoxContainer/Gameloop_Buttons"]
+z_index = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme = SubResource("Theme_dg0g8")
+script = ExtResource("13_w71lm")
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Gameloop_Buttons/ButtonLuck"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.07
+anchor_top = 0.07
+anchor_right = 0.93
+anchor_bottom = 0.93
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_447qu")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="LuckDisplay" type="Label" parent="VBoxContainer/Gameloop_Buttons/ButtonLuck"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Console" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = SubResource("SystemFont_4ehm3")
+theme_override_font_sizes/font_size = 30
+justification_flags = 160
+
+[connection signal="toggled" from="VBoxContainer/UI_Buttons/AchievementsButton" to="VBoxContainer/UI_Buttons/AchievementsButton" method="_on_toggled"]
+[connection signal="toggled" from="VBoxContainer/UI_Buttons/SoundButton" to="VBoxContainer/UI_Buttons/SoundButton" method="_on_toggled"]
+[connection signal="toggled" from="VBoxContainer/UI_Buttons/BackgroundButton2" to="VBoxContainer/UI_Buttons/BackgroundButton2" method="_on_toggled"]
